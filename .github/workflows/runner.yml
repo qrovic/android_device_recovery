@@ -1,0 +1,32 @@
+name: Recovery Building
+
+on: [push]
+
+env:
+  ALLOW_MISSING_DEPENDENCIES: true
+  LC_ALL: C
+  DEVICE: montana-Pterodon
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+       - name: Checkout
+         uses: actions/checkout@master
+
+       - name: Initializing telegram bot
+         env:
+              TOKEN: ${{ secrets.TOKEN }}
+
+         run: |
+              sudo install telegram /usr/bin
+              chmod +x $DEVICE/initial.sh
+              . $DEVICE/initial.sh
+       - name: Execute Shell Script
+         env:
+              TOKEN: ${{ secrets.TOKEN }}
+              
+         run: |
+               setopt shwordsplit
+               chmod +x $DEVICE/build.sh
+               . $DEVICE/build.sh
